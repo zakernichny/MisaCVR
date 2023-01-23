@@ -60,7 +60,7 @@ public class MainGUI : MonoBehaviour
         textForGUIFun.SetPosition(new Vector2(350, 0));
     }
 
-    public static IEnumerator WaitForMenu()//
+    public static IEnumerator WaitForMenu()
     {
         while (!GameObject.Find("Cohtml/CohtmlWorldView")) { yield return new WaitForSeconds(1); }
         Misa.MainGUI.Start();
