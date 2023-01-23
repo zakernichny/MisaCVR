@@ -7,7 +7,7 @@ using Object = UnityEngine.Object;
 
 namespace ReticleSW
 {
-    public class Swap
+    public class Asset
     {
         /// <summary>
         /// The Loaded AssetBundle, Null By Default
@@ -18,7 +18,7 @@ namespace ReticleSW
 
         internal string error = "";
 
-        internal Swap(string resource = null)
+        internal Asset(string resource = null)
         {
             if (!string.IsNullOrEmpty(resource))
             {
@@ -123,7 +123,7 @@ namespace ReticleSW
         }
         public static Sprite Reticle()
         {
-            Swap AssetBundle = new Swap(null);
+            Asset AssetBundle = new Asset(null);
             if (AssetBundle.LoadBundle("Misatyan.Reticle.Bundles.reticle"))
             {
                 return AssetBundle.Load<Sprite>("Reticle");
