@@ -30,14 +30,14 @@ namespace Misatyan
         public override void OnApplicationStart()
         {
             MelonCoroutines.Start(ReticleSwitch.WaitForMenu());
-            MelonCoroutines.Start(MainGUI.WaitForMenu());
+            //MelonCoroutines.Start(MainGUI.WaitForMenu());
             Instance = this;
         }
 
         //PlayerList on GUI
         public override void OnGUI()
         {
-            //PlayerList.List();
+            PlayerList.List();
         }
     }
 }

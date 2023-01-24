@@ -123,7 +123,7 @@
     <Compile Include="DirectionFly\DirectionFly.cs" />
     <Compile Include="GrabHold\GrabHold.cs" />
     <Compile Include="MisaMain.cs" />
-    <Compile Include="PlayerList\ConfigListSer.cs" />
+    <Compile Include="ConfigListSer.cs" />
     <Compile Include="PlayerList\MainGUI.cs" />
     <Compile Include="PlayerList\PlayerList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -135,6 +135,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy /Y "$(TargetDir)$(TargetFileName)" "%25CVR_DIR%25\Mods"</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>

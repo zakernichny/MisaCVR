@@ -19,7 +19,7 @@ namespace Misatyan
             int fpsValue = (int)(1.0f / Time.smoothDeltaTime);
             string text = string.Empty;
             var Players = MetaPort.Instance.PlayerManager.NetworkPlayers;
-            
+            int i = 0;
             GUIStyle style = new GUIStyle();
             style.alignment = TextAnchor.MiddleLeft;
             style.normal.textColor = Color.white;
@@ -70,68 +70,75 @@ namespace Misatyan
 
             text = "#";
             Rect num = new Rect(new Vector2(Label.x, Label.y + Label.height), new Vector2(Header.width / 10, Header.height - Label.height));
-            style.fontSize = (int)(num.height);
+            style.fontSize = (int)(num.height / 1.2);
             style.alignment = TextAnchor.LowerLeft;
-            GUI.Box(num, "");
             GUI.Label(num, text, style);
 
             text = "username";
-            Rect username = new Rect(new Vector2(num.x+num.width, Label.y + Label.height), new Vector2((Header.width - num.width) / 3, Header.height - Label.height));
-            style.fontSize = (int)username.height;
-            GUI.Box(username, "");
+            Rect username = new Rect(new Vector2(num.x + num.width, Label.y + Label.height), new Vector2((Header.width - num.width) / 2, Header.height - Label.height));
+            style.fontSize = (int)(username.height / 1.2);
             GUI.Label(username, text, style);
 
             text = "rank";
-            Rect rank = new Rect(new Vector2(username.x+username.width, Label.y + Label.height), new Vector2((Header.width - num.width) / 3, Header.height - Label.height));
-            style.fontSize = (int)rank.height/2;
-            GUI.Box(rank, "");
+            Rect rank = new Rect(new Vector2(username.x + username.width, Label.y + Label.height), new Vector2((Header.width - num.width - username.width) / 2, Header.height - Label.height));
+            style.fontSize = (int)(rank.height / 1.2);
             GUI.Label(rank, text, style);
 
             text = "speak";
-            Rect speak = new Rect(new Vector2(rank.x + rank.width, Label.y + Label.height), new Vector2((Header.width - num.width) / 3, Header.height - Label.height));
-            style.fontSize = (int)speak.height / 2;
+            Rect speak = new Rect(new Vector2(rank.x + rank.width, Label.y + Label.height), new Vector2((Header.width - num.width - username.width - rank.width), Header.height - Label.height));
+            style.fontSize = (int)(speak.height / 1.2);
             style.alignment = TextAnchor.LowerRight;
-            GUI.Box(speak, "");
             GUI.Label(speak, text, style);
-            //GUIStyle table = new GUIStyle();
-            //table.alignment = TextAnchor.UpperLeft;
-            //table.normal.textColor = Color.cyan;
-            //GUI.Label(new Rect(20, 70, 20, 20), $"<size=14>#</size>", table);
-            //GUI.Label(new Rect(40, 70, 100, 20), $"<size=14>username</size>", table);
-            //GUI.Label(new Rect(200, 70, 100, 20), $"<size=14>rank</size>", table);
-            //table.alignment= TextAnchor.UpperRight;
-            //GUI.Label(new Rect(300, 70, 100, 20), $"<size=14>speak</size>", table);
-            //int i = 0;
-            //if (Players.Count != 0)
-            //    GUI.Box(new Rect(10, 100, 320, 20 * Players.Count), "");
-            //string playerList = string.Empty;
-            //foreach (var player in Players)
-            //{
-            //    i++;
+            
+            Rect playerList = new Rect(new Vector2(Head.x, Head.y + Head.height), new Vector2(Head.width, Players.Count * num.height));
+            if (Players.Count>0)
+                GUI.Box(playerList, "");
 
-            //    
-            //    string speak;
-            //    if (player.TalkerAmplitude > 0)
-            //    {
-            //        speak = "speak";
-            //    }
-            //    else speak = string.Empty;
-            //    GUI.Label(new Rect(20, 80 + 20 * i, 20, 20), $"<size=14>{i}</size>", table);
-            //    GUIStyle rank = new GUIStyle();
-            //    rank.alignment = TextAnchor.UpperLeft;
-            //    rank.normal.textColor = Color.Lerp(player.PlayerNameplate.nameplateBackground.color, Color.white, 0.5f);
-            //    if (GUI.Button(new Rect(40, 80 + 20 * i, 120, 20), $"<size=14>{player.Username}</size>", rank))
-            //    {
-            //        GameObject.Find("_PLAYERLOCAL").GetComponent<MovementSystem>().TeleportTo(player.DarkRift2Player.Position);
-            //    }
-            //    GUI.Label(new Rect(160, 80 + 20 * i, 100, 20), $"<size=14>{player.ApiUserRank}</size>", rank);
-            //    GUIStyle speaker = new GUIStyle();
-            //    speaker.alignment = TextAnchor.UpperLeft;
-            //    speaker.normal.textColor = Color.green;
-            //    GUI.Label(new Rect(260, 80 + 20 * i, 100, 20), $"<size=14>{speak}</size>", speaker);
+            Rect position = new Rect(new Vector2(Header.x, playerList.y), new Vector2(Header.width, H / 2));
+            Vector2 scroll = new Vector2(position.x, position.y);
+            Rect viewRect = new Rect(new Vector2(scroll.x, scroll.y), new Vector2(position.width, Players.Count * num.height));
+            GUI.BeginScrollView(position, scroll, viewRect);
+
+
+            
+            foreach (var player in Players)
+            {
+                i++;
+                
+
+                text = $"{i}";
+                Rect numPL = new Rect(new Vector2(num.x, position.y + (i - 1) * num.height), new Vector2(num.width, num.height));
+                style.alignment = TextAnchor.MiddleLeft;
+                style.normal.textColor = Color.cyan;
+                GUI.Label(numPL, text, style);
+
+                text = $"{player.Username}";
+                Rect usernamePL = new Rect(new Vector2(username.x, position.y + (i - 1) * username.height), new Vector2(username.width, username.height));
+                style.alignment = TextAnchor.MiddleLeft;
+                style.normal.textColor = Color.Lerp(player.PlayerNameplate.nameplateBackground.color, Color.white, 0.5f);
+                if (GUI.Button(usernamePL, text, style))
+                    GameObject.Find("_PLAYERLOCAL").GetComponent<MovementSystem>().TeleportTo(player.DarkRift2Player.Position);
+
+                text = $"{player.ApiUserRank}";
+                Rect rankPL = new Rect(new Vector2(rank.x, position.y + (i - 1) * rank.height), new Vector2(rank.width, rank.height));
+                style.alignment = TextAnchor.MiddleLeft;
+                GUI.Label(rankPL, text, style);
+
+                
+                if (player.TalkerAmplitude > 0)
+                    text = "speak";
+                else text = "";
+                
+                Rect Speaker = new Rect(new Vector2(speak.x, position.y + (i - 1) * speak.height), new Vector2(speak.width, speak.height));
+                style.alignment = TextAnchor.MiddleRight;
+                style.normal.textColor = Color.green;
+                GUI.Label(Speaker, text, style);
+            }
+            GUI.EndScrollView();
+
         }
 
-    }
 
+    }
 }
 
